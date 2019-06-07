@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SharedCode
+import main
 
 
 
@@ -24,6 +24,8 @@ class ViewController: UIViewController {
         label.font = label.font.withSize(25)
         label.text = CommonKt.createApplicationScreenMessage()
         view.addSubview(label)
+        
+        
     }
 
 

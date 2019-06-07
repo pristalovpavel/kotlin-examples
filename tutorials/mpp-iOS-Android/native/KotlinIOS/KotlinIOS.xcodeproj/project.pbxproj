@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4741762E215D147E0075153C /* SharedCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4741762D215D147E0075153C /* SharedCode.framework */; };
-		4741762F215D147E0075153C /* SharedCode.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4741762D215D147E0075153C /* SharedCode.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47CC68BD215C0386001B3A20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC68BC215C0386001B3A20 /* AppDelegate.swift */; };
 		47CC68BF215C0386001B3A20 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC68BE215C0386001B3A20 /* ViewController.swift */; };
 		47CC68C2215C0386001B3A20 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47CC68C0215C0386001B3A20 /* Main.storyboard */; };
 		47CC68C4215C0387001B3A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47CC68C3215C0387001B3A20 /* Assets.xcassets */; };
 		47CC68C7215C0387001B3A20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47CC68C5215C0387001B3A20 /* LaunchScreen.storyboard */; };
+		AFA1C02022AAC0B400574067 /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFA1C01F22AAC0B400574067 /* main.framework */; };
+		AFA1C02122AAC0B400574067 /* main.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AFA1C01F22AAC0B400574067 /* main.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AFA1C02522AAC2A200574067 /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFA1C02422AAC2A200574067 /* Game.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,7 +24,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4741762F215D147E0075153C /* SharedCode.framework in Embed Frameworks */,
+				AFA1C02122AAC0B400574067 /* main.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -31,7 +32,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4741762D215D147E0075153C /* SharedCode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SharedCode.framework; path = "../../SharedCode/build/xcode-frameworks/SharedCode.framework"; sourceTree = "<group>"; };
 		47CC68B9215C0386001B3A20 /* KotlinIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KotlinIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CC68BC215C0386001B3A20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47CC68BE215C0386001B3A20 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +39,9 @@
 		47CC68C3215C0387001B3A20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47CC68C6215C0387001B3A20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		47CC68C8215C0387001B3A20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFA1C01D22AABE0600574067 /* main.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = main.framework; path = "../../SharedCode/build/xcode-frameworks/main.framework"; sourceTree = "<group>"; };
+		AFA1C01F22AAC0B400574067 /* main.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = main.framework; path = "../../SharedCode/build/xcode-frameworks/main.framework"; sourceTree = "<group>"; };
+		AFA1C02422AAC2A200574067 /* Game.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Game.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4741762E215D147E0075153C /* SharedCode.framework in Frameworks */,
+				AFA1C02022AAC0B400574067 /* main.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,7 +59,8 @@
 		47CC68B0215C0386001B3A20 = {
 			isa = PBXGroup;
 			children = (
-				4741762D215D147E0075153C /* SharedCode.framework */,
+				AFA1C01D22AABE0600574067 /* main.framework */,
+				AFA1C01F22AAC0B400574067 /* main.framework */,
 				47CC68BB215C0386001B3A20 /* KotlinIOS */,
 				47CC68BA215C0386001B3A20 /* Products */,
 			);
@@ -79,6 +83,7 @@
 				47CC68C3215C0387001B3A20 /* Assets.xcassets */,
 				47CC68C5215C0387001B3A20 /* LaunchScreen.storyboard */,
 				47CC68C8215C0387001B3A20 /* Info.plist */,
+				AFA1C02422AAC2A200574067 /* Game.storyboard */,
 			);
 			path = KotlinIOS;
 			sourceTree = "<group>";
@@ -143,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFA1C02522AAC2A200574067 /* Game.storyboard in Resources */,
 				47CC68C7215C0387001B3A20 /* LaunchScreen.storyboard in Resources */,
 				47CC68C4215C0387001B3A20 /* Assets.xcassets in Resources */,
 				47CC68C2215C0386001B3A20 /* Main.storyboard in Resources */,
@@ -325,7 +331,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PV33WZUX7H;
+				DEVELOPMENT_TEAM = W53X8P8YCY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../SharedCode/build/xcode-frameworks";
 				INFOPLIST_FILE = KotlinIOS/Info.plist;
@@ -346,7 +352,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PV33WZUX7H;
+				DEVELOPMENT_TEAM = W53X8P8YCY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../SharedCode/build/xcode-frameworks";
 				INFOPLIST_FILE = KotlinIOS/Info.plist;
