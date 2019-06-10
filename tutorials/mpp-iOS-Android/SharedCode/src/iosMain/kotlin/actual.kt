@@ -9,6 +9,6 @@ actual fun platformName(): String {
           UIDevice.currentDevice.systemVersion
 }
 
+actual fun GameEngine.clearField() {
 
-
-//https://stackoverflow.com/a/24505884
+}
