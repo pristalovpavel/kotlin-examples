@@ -8,15 +8,3 @@ actual fun platformName(): String {
           " " +
           UIDevice.currentDevice.systemVersion
 }
-
-actual fun GameEngine.clearUIField() {
-
-}
-
-actual fun GameEngine.showZero(i: Int, int: Int) {
-
-}
-
-actual fun GameEngine.showWinner(message: String) {
-
-}

@@ -8,24 +8,29 @@ fun createApplicationScreenMessage(): String {
   return "Kotlin Rocks on ${platformName()}"
 }
 
-// метод очищает игровое поле
-expect fun GameEngine.clearUIField()
+interface GameEngineCallbacks {
+  // метод очищает игровое поле
+  fun clearUIField()
 
-// метод говорит UI отрисовать нолик в поле i, j
-expect fun GameEngine.showZero(i: Int, int: Int)
+  // метод говорит UI отрисовать нолик в поле i, j
+  fun showZero(i: Int, j: Int)
 
-// метод отображает сообщение о выигрыше
-expect fun GameEngine.showWinner(message: String)
+  // метод отображает сообщение о выигрыше
+  fun showWinner(message: String)
+}
 
-class GameEngine {
+class GameEngine (private var callbacks: GameEngineCallbacks) {
+
   private var table: MutableList<MutableList<Int>> = MutableList(3) { MutableList(3) { 0 } }
   private val computerValue = 2
   private val playerValue = 1
 
+  // метод начинает новую игру
   fun startNewGame() {
     startGame()
   }
 
+  // метод обработки нажатия на игровое поле живым игроком
   fun fieldPressed(i: Int, j: Int) {
     table[i][j] = playerValue
 
@@ -38,26 +43,27 @@ class GameEngine {
   // начинаем новую игру
   private fun startGame() {
     // чистим игровое поле
-    clearUIField()
+    callbacks.clearUIField()
     clearTable()
   }
 
   // метод печатает победителя
   private fun showWinner() : Boolean {
-    var winner = check()
+    val winner = check()
     when (winner) {
       computerValue -> {
-        showWinner("You won!")
+        callbacks.showWinner("AI won!")
         return true
       }
       playerValue -> {
-        showWinner("AI won!")
+        callbacks.showWinner("You won!")
         return true
       }
     }
     return false
   }
 
+  // подсчитывает количество заполненных клеток
   private fun nonZeroValues(): Int {
     var count = 0
 
@@ -70,11 +76,12 @@ class GameEngine {
     return count
   }
 
+  // очищает внутреннюю таблицу
   private fun clearTable() {
     table = MutableList(3) { MutableList(3) { 0 } }
   }
 
-  //checks if anyone is winning.
+  // проверяет выигрыш одной из сторон
   private fun check() : Int {
     for (i in 0..2)
       if (table[i][0] != 0 && table[i][0] == table[i][1] && table[i][1] == table[i][2]
@@ -93,7 +100,7 @@ class GameEngine {
       for (i in 0..2) {
         if (table[i][i] == 0) {
           table[i][i] = computerValue
-          showZero(i, i)
+          callbacks.showZero(i, i)
           return 1
         }
       }
@@ -101,12 +108,12 @@ class GameEngine {
       for (i in 0..2) {
         if (table[i][2 - i] == 0) {
           table[i][2 - i] = computerValue
-          showZero(i, 2 - i)
+          callbacks.showZero(i, 2 - i)
           return 1
         }
       }
     } else {
-      var i: Int = 0
+      var i = 0
       var j: Int
       while (i < 3) {
         if (table[i][0] + table[i][1] + table[i][2] == 2 * c && table[i][0] != p && table[i][1] != p && table[i][2] != p) {
@@ -114,7 +121,7 @@ class GameEngine {
           while (j < 3) {
             if (table[i][j] == 0) {
               table[i][j] = computerValue
-              showZero(i, j)
+              callbacks.showZero(i, j)
               return 1
             }
             j++
@@ -124,7 +131,7 @@ class GameEngine {
           while (j < 3) {
             if (table[j][i] == 0) {
               table[j][i] = computerValue
-              showZero(j, i)
+              callbacks.showZero(j, i)
               return 1
             }
             j++
@@ -136,7 +143,7 @@ class GameEngine {
     return 0
   }
 
-  //takes a move as to win in future.
+  // сделать ход, чтобы в будущем выиграть
   private fun attack(): Int {
     var i: Int
     var j: Int
@@ -149,7 +156,7 @@ class GameEngine {
             while (j < 3) {
               if (table[i][j] == 0) {
                 table[i][j] = computerValue
-                showZero(i, j)
+                callbacks.showZero(i, j)
                 return 1
               }
               j++
@@ -159,7 +166,7 @@ class GameEngine {
             while (j >= 0) {
               if (table[i][j] == 0) {
                 table[i][j] = computerValue
-                showZero(i, j)
+                callbacks.showZero(i, j)
                 return 1
               }
               j--
@@ -172,7 +179,7 @@ class GameEngine {
             while (j < 3) {
               if (table[j][i] == 0) {
                 table[j][i] = computerValue
-                showZero(j, i)
+                callbacks.showZero(j, i)
                 return 1
               }
               j++
@@ -182,7 +189,7 @@ class GameEngine {
             while (j >= 0) {
               if (table[j][i] == 0) {
                 table[j][i] = computerValue
-                showZero(j, i)
+                callbacks.showZero(j, i)
                 return 1
               }
               j--
@@ -198,7 +205,7 @@ class GameEngine {
         while (i >= 0) {
           if (table[i][i] == 0 && (table[i][0] + table[i][1] + table[i][2] == computerValue && (table[i][0] == computerValue || table[i][1] == computerValue || table[i][2] == computerValue) || table[0][i] + table[1][i] + table[2][i] == computerValue && (table[0][i] == computerValue || table[1][i] == computerValue || table[2][i] == computerValue))) {
             table[i][i] = computerValue
-            showZero(i, i)
+            callbacks.showZero(i, i)
             return 1
           }
           i--
@@ -208,7 +215,7 @@ class GameEngine {
           if (table[i][i] == 0) {
             if (table[i][0] + table[i][1] + table[i][2] == playerValue && (table[i][0] == playerValue || table[i][1] == playerValue || table[i][2] == playerValue) && table[0][i] + table[1][i] + table[2][i] == playerValue && (table[0][i] == playerValue || table[1][i] == playerValue || table[2][i] == playerValue)) {
               table[i][i] = computerValue
-              showZero(i, i)
+              callbacks.showZero(i, i)
               return 1
             }
           }
@@ -218,7 +225,7 @@ class GameEngine {
         while (i >= 0) {
           if (table[i][i] == 0) {
             table[i][i] = computerValue
-            showZero(i, i)
+            callbacks.showZero(i, i)
             return 1
           }
           i--
@@ -228,7 +235,7 @@ class GameEngine {
         while (i >= 0) {
           if (table[i][2 - i] == 0 && (table[i][0] + table[i][1] + table[i][2] == computerValue && (table[i][0] == computerValue || table[i][1] == computerValue || table[i][2] == computerValue) || table[0][2 - i] + table[1][2 - i] + table[2][2 - i] == computerValue && (table[0][2 - i] == computerValue || table[1][2 - i] == computerValue || table[2][2 - i] == computerValue))) {
             table[i][2 - i] = computerValue
-            showZero(i, 2 - i)
+            callbacks.showZero(i, 2 - i)
             return 1
           }
           i--
@@ -238,7 +245,7 @@ class GameEngine {
           if (table[i][2 - i] == 0) {
             if (table[i][0] + table[i][1] + table[i][2] == playerValue && (table[i][0] == playerValue || table[i][1] == playerValue || table[i][2] == playerValue) && table[0][2 - i] + table[1][2 - i] + table[2][2 - i] == playerValue && (table[0][2 - i] == playerValue || table[1][2 - i] == playerValue || table[2][2 - i] == playerValue)) {
               table[i][2 - i] = computerValue
-              showZero(i, 2 - i)
+              callbacks.showZero(i, 2 - i)
               return 1
             }
           }
@@ -248,7 +255,7 @@ class GameEngine {
         while (i >= 0) {
           if (table[i][2 - i] == 0) {
             table[i][2 - i] = computerValue
-            showZero(i, 2 - i)
+            callbacks.showZero(i, 2 - i)
             return 1
           }
           i--
@@ -260,7 +267,7 @@ class GameEngine {
         while (i >= 0) {
           if (table[i][i] == 0 && (table[i][0] + table[i][1] + table[i][2] == computerValue && (table[i][0] == computerValue || table[i][1] == computerValue || table[i][2] == computerValue) || table[0][i] + table[1][i] + table[2][i] == computerValue && (table[0][i] == computerValue || table[1][i] == computerValue || table[2][i] == computerValue))) {
             table[i][i] = computerValue
-            showZero(i, i)
+            callbacks.showZero(i, i)
             return 1
           }
           i--
@@ -270,7 +277,7 @@ class GameEngine {
           if (table[i][i] == 0) {
             if (table[i][0] + table[i][1] + table[i][2] == playerValue && (table[i][0] == playerValue || table[i][1] == playerValue || table[i][2] == playerValue) && table[0][i] + table[1][i] + table[2][i] == playerValue && (table[0][i] == playerValue || table[1][i] == playerValue || table[2][i] == playerValue)) {
               table[i][i] = computerValue
-              showZero(i, i)
+              callbacks.showZero(i, i)
               return 1
             }
           }
@@ -280,7 +287,7 @@ class GameEngine {
         while (i >= 0) {
           if (table[i][i] == 0) {
             table[i][i] = computerValue
-            showZero(i, i)
+            callbacks.showZero(i, i)
             return 1
           }
           i--
@@ -290,7 +297,7 @@ class GameEngine {
         while (i >= 0) {
           if (table[i][2 - i] == 0 && (table[i][0] + table[i][1] + table[i][2] == computerValue && (table[i][0] == computerValue || table[i][1] == computerValue || table[i][2] == computerValue) || table[0][2 - i] + table[1][2 - i] + table[2][2 - i] == computerValue && (table[0][2 - i] == computerValue || table[1][2 - i] == computerValue || table[2][2 - i] == computerValue))) {
             table[i][2 - i] = computerValue
-            showZero(i, 2 - i)
+            callbacks.showZero(i, 2 - i)
             return 1
           }
           i--
@@ -300,7 +307,7 @@ class GameEngine {
           if (table[i][2 - i] == 0) {
             if (table[i][0] + table[i][1] + table[i][2] == playerValue && (table[i][0] == playerValue || table[i][1] == playerValue || table[i][2] == playerValue) && table[0][2 - i] + table[1][2 - i] + table[2][2 - i] == playerValue && (table[0][2 - i] == playerValue || table[1][2 - i] == playerValue || table[2][2 - i] == playerValue)) {
               table[i][2 - i] = computerValue
-              showZero(i, 2 - i)
+              callbacks.showZero(i, 2 - i)
               return 1
             }
           }
@@ -311,7 +318,7 @@ class GameEngine {
         while (i >= 0) {
           if (table[i][2 - i] == 0) {
             table[i][2 - i] = computerValue
-            showZero(i, 2 - i)
+            callbacks.showZero(i, 2 - i)
             return 1
           }
           i--
@@ -324,7 +331,7 @@ class GameEngine {
               for (j in 0..2) {
                 if (table[i][j] == 0) {
                   table[i][j] = computerValue
-                  showZero(i, j)
+                  callbacks.showZero(i, j)
                   return 1
                 }
               }
@@ -333,7 +340,7 @@ class GameEngine {
               while (j >= 0) {
                 if (table[i][j] == 0) {
                   table[i][j] = computerValue
-                  showZero(i, j)
+                  callbacks.showZero(i, j)
                   return 1
                 }
                 j--
@@ -345,7 +352,7 @@ class GameEngine {
               while (j < 3) {
                 if (table[j][i] == 0) {
                   table[j][i] = computerValue
-                  showZero(j, i)
+                  callbacks.showZero(j, i)
                   return 1
                 }
                 j++
@@ -355,7 +362,7 @@ class GameEngine {
               while (j >= 0) {
                 if (table[j][i] == 0) {
                   table[j][i] = computerValue
-                  showZero(j, i)
+                  callbacks.showZero(j, i)
                   return 1
                 }
                 j--
@@ -369,8 +376,8 @@ class GameEngine {
     return 0
   }
 
-  //controls the compter's move
-  fun ai(b: Int) {
+  // управление ходом компьютера
+  private fun ai(b: Int) {
     if(defend(computerValue, playerValue, b) == 0)
     {
       if(defend(playerValue, computerValue, b) == 0)
@@ -385,7 +392,7 @@ class GameEngine {
             if(table[i][j]==0)
             {
               table[i][j] = computerValue
-              showZero(i,j)
+              callbacks.showZero(i,j)
               return
             }
           }
@@ -394,24 +401,24 @@ class GameEngine {
         else if(b == 2 && table[1][1] == 0)
         {
           table[1][1] = computerValue
-          showZero(1,1)
+          callbacks.showZero(1,1)
         }
         if(attack() == 0)
         {
           if(b == 0)
           {
-            table[Random(7654321).nextInt(0,1) * 2][Random(1234567).nextInt(0,1) * 2] = computerValue;
+            table[Random(7654321).nextInt(0,1) * 2][Random(1234567).nextInt(0,1) * 2] = computerValue
             for(i in 0 until 3 step 2)
             {
               for(j in 0 until 3 step 2)
               if(table[i][j] == computerValue)
-                showZero(i, j)
+                callbacks.showZero(i, j)
             }
           }
           else if(table[1][1] == 0)
           {
             table[1][1]=computerValue
-            showZero(1,1)
+            callbacks.showZero(1,1)
           }
           else
           {
@@ -422,7 +429,7 @@ class GameEngine {
                 if(table[i][j] == 0)
                 {
                   table[i][j]=computerValue
-                  showZero(i, j)
+                  callbacks.showZero(i, j)
                   return
                 }
               }
