@@ -5,3 +5,4 @@ Game use common engine written on Kotlin and platform-specific code for making U
 Original repository helped to create all necessary dependencies and pathes.
 
 Game catalog path: tutorials/mpp-iOS-Android
+
