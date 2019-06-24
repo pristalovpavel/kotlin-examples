@@ -1,6 +1,7 @@
-kotlin-examples
-===============
+Tic-tac-toe game for both Android and iOS platform using Kotlin Multiplatform.
 
-[![official JetBrains project](http://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+Game use common engine written on Kotlin and platform-specific code for making UI.
 
-Various examples for Kotlin
+Original repository helped to create all necessary dependencies and pathes.
+
+Game catalog path: tutorials/mpp-iOS-Android
